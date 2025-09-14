@@ -1,0 +1,17 @@
+.household-form-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.household-error {
+  color: red;
+  margin-bottom: 8px;
+}
+
+.household-map {
+  height: 300px;
+  width: 100%;
+  margin-bottom: 12px;
+}
