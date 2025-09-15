@@ -108,6 +108,14 @@ const HouseholdPortal: React.FC = () => {
             {households.map(h => (
               <li key={h.id} style={{display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4}}>
                 <span>Lat: {h.latitude}, Lon: {h.longitude}</span>
+                {h.associated_station ? (
+                  <span style={{marginLeft: 8, color: '#4caf50'}}>
+                    | Associated Station: <b>{h.associated_station.name}</b>
+                    (Lat: {h.associated_station.latitude.toFixed(4)}, Lon: {h.associated_station.longitude.toFixed(4)})
+                  </span>
+                ) : (
+                  <span style={{marginLeft: 8, color: '#888'}}>| No associated station</span>
+                )}
                 <button onClick={() => handleDeleteHousehold(h.id)} style={{color: 'red'}}>Delete</button>
               </li>
             ))}

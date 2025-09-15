@@ -3,6 +3,7 @@ district_centroids = {
     # Example: 'Kerala': {'Trivandrum': (8.5241, 76.9366), ...}
     'Kerala': {
         'Trivandrum': (8.5241, 76.9366),
+        'Thiruvananthapuram': (8.5241, 76.9366),  # Alias for Trivandrum
         'Kollam': (8.8932, 76.6141),
         'Kozhikode': (11.2588, 75.7804),
         'Alappuzha': (9.4981, 76.3388),

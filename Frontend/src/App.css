@@ -1,3 +1,131 @@
+.analytics-page {
+  padding: 2em 0 3em 0;
+  color: #e0e0e0;
+}
+.analytics-kpis {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+.kpi-card {
+  background: #23263a;
+  border-radius: 10px;
+  padding: 1.2em 2.2em;
+  box-shadow: 0 2px 12px #0002;
+  min-width: 180px;
+}
+.kpi-label {
+  color: #b0b0b0;
+  font-size: 1em;
+  margin-bottom: 0.5em;
+}
+.kpi-value {
+  font-size: 1.7em;
+  font-weight: 700;
+  color: #4fd18b;
+}
+.analytics-section {
+  margin-top: 2em;
+}
+.analytics-district {
+  background: #23263a;
+  border-radius: 10px;
+  margin-bottom: 2em;
+  padding: 1.5em 1.5em 1em 1.5em;
+  box-shadow: 0 2px 12px #0002;
+}
+.analytics-solar-flux {
+  color: #646cff;
+  font-size: 0.95em;
+}
+.analytics-district-kpi {
+  margin-bottom: 1em;
+  color: #b0b0b0;
+}
+.analytics-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+.analytics-table th, .analytics-table td {
+  border: 1px solid #333;
+  padding: 0.7em 1em;
+  text-align: center;
+}
+.analytics-table th {
+  background: #181a20;
+  color: #b0b0b0;
+}
+.analytics-table tr:nth-child(even) {
+  background: #23263a;
+}
+.analytics-table tr:nth-child(odd) {
+  background: #181a20;
+}
+.landing-note {
+  margin-top: 1.5em;
+  color: #b0b0b0;
+}
+/* Modern Navbar Styles */
+.app-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #181a20;
+  padding: 0 2.5em 0 1.5em;
+  min-height: 64px;
+  border-bottom: 1.5px solid #23263a;
+  box-shadow: 0 2px 12px #0002;
+}
+.app-logo {
+  font-size: 1.7em;
+  font-weight: 700;
+  color: #646cff;
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin-right: 2em;
+}
+.app-nav-links {
+  display: flex;
+  gap: 18px;
+}
+.app-nav-link {
+  color: #e0e0e0;
+  background: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1.08em;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  border: 1px solid transparent;
+}
+.app-nav-link:hover {
+  background: #23263a;
+  color: #646cff;
+}
+.app-nav-link.active {
+  background: #646cff;
+  color: #fff;
+  border: 1px solid #646cff;
+}
+.app-content {
+  margin-top: 2.5em;
+}
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  background: none;
+}
+.landing-sub {
+  color: #b0b0b0;
+  font-size: 1.3em;
+  margin-bottom: 2em;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;

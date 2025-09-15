@@ -23,23 +23,29 @@ def get_db():
 # Place this after app and get_db are defined
 @app.get("/analytics/summary")
 def analytics_summary(db: Session = Depends(get_db)):
-    # Simulate active counts
-    station_count = db.query(models.Station).count()
-    household_count = db.query(models.Household).count()
-    # Simulate energy/session data (randomized for demo)
-    now = datetime.datetime.now()
-    days = 30
-    station_energy = [round(random.uniform(100, 500), 2) for _ in range(days)]
-    household_energy = [round(random.uniform(10, 50), 2) for _ in range(days)]
-    sessions = [random.randint(5, 30) for _ in range(days)]
-    dates = [(now - datetime.timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days-1, -1, -1)]
+    # Real analytics: households per station
+    stations = db.query(models.Station).all()
+    households = db.query(models.Household).all()
+    station_stats = []
+    station_id_to_station = {s.id: s for s in stations}
+    # Count households per station
+    households_per_station = {}
+    for h in households:
+        sid = h.associated_station_id
+        if sid:
+            households_per_station[sid] = households_per_station.get(sid, 0) + 1
+    for s in stations:
+        station_stats.append({
+            "id": s.id,
+            "name": s.name,
+            "latitude": s.latitude,
+            "longitude": s.longitude,
+            "household_count": households_per_station.get(s.id, 0)
+        })
     return {
-        "active_stations": station_count,
-        "active_households": household_count,
-        "energy_by_station": station_energy,
-        "energy_by_household": household_energy,
-        "sessions": sessions,
-        "dates": dates
+        "total_stations": len(stations),
+        "total_households": len(households),
+        "stations": station_stats
     }
 
 import requests
@@ -130,17 +136,39 @@ def apply_household(application: HouseholdApplication, db: Session = Depends(get
 # --- Households CRUD (admin/manual) ---
 @app.post("/households")
 def add_household(household: HouseholdCreate, db: Session = Depends(get_db)):
+    # Find nearest station in district (or state)
+    stations = db.query(models.Station).join(models.District).filter(models.District.id == household.district_id).all()
+    district = db.query(models.District).filter(models.District.id == household.district_id).first()
+    state_id = district.state_id if district else None
+    if state_id:
+        state_stations = db.query(models.Station).join(models.District).filter(models.District.state_id == state_id).all()
+        stations = list({s.id: s for s in stations + state_stations}.values())
+    min_dist = None
+    nearest = None
+    for s in stations:
+        dist = haversine(household.latitude, household.longitude, s.latitude, s.longitude)
+        if min_dist is None or dist < min_dist:
+            min_dist = dist
+            nearest = s
+    associated_station_id = nearest.id if nearest else None
     new_household = models.Household(
         latitude=household.latitude,
         longitude=household.longitude,
         district_id=household.district_id,
         status='approved',
-        associated_station_id=None
+        associated_station_id=associated_station_id
     )
     db.add(new_household)
     db.commit()
     db.refresh(new_household)
-    return {"id": new_household.id, "latitude": new_household.latitude, "longitude": new_household.longitude, "district_id": new_household.district_id, "status": new_household.status}
+    return {
+        "id": new_household.id,
+        "latitude": new_household.latitude,
+        "longitude": new_household.longitude,
+        "district_id": new_household.district_id,
+        "status": new_household.status,
+        "associated_station_id": new_household.associated_station_id
+    }
 
 
 @app.delete("/households/{household_id}")
