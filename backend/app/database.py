@@ -1,12 +1,16 @@
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .models import Base
 import os
 
-DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'evstations.db')
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
+# Use environment variable for DB URL, fallback to local Postgres for dev
+SQLALCHEMY_DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://postgres:J%40egar145@localhost:5433/evstations"
+)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
