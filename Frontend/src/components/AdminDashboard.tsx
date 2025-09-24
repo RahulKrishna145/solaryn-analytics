@@ -71,7 +71,7 @@ const AdminDashboard: React.FC = () => {
       return;
     }
     try {
-      const res = await import('../api').then(api => api.addStation({
+      await import('../api').then(api => api.addStation({
         name: stationName,
         latitude: parseFloat(stationLat),
         longitude: parseFloat(stationLon),
